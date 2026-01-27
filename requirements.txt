@@ -1,3 +1,0 @@
-fitz
-pymupdf4llm
-pytesseract
