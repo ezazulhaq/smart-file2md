@@ -4,8 +4,8 @@ This package provides tools to convert PDF files to Markdown format,
 with automatic fallback to OCR for scanned documents.
 """
 
-__version__ = '0.1.0'
-__author__ = 'Ezaz Ul Haq'
+__version__ = '1.0.0'
+__author__ = 'Ezazul Haq Abdul'
 __license__ = 'MIT'
 
 from .config import ConverterConfig
