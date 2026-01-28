@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "markdown-convert"
+name = "smart-file2md"
 version = "1.0.0"
 description = "Convert PDF files to Markdown with OCR support"
 readme = "README.md"
@@ -47,12 +47,12 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/ezazulhaq/markdown-convert"
-Repository = "https://github.com/ezazulhaq/markdown-convert"
-Issues = "https://github.com/ezazulhaq/markdown-convert/issues"
+Homepage = "https://github.com/ezazulhaq/smart-file2md"
+Repository = "https://github.com/ezazulhaq/smart-file2md"
+Issues = "https://github.com/ezazulhaq/smart-file2md/issues"
 
 [project.scripts]
-markdown-convert = "markdown_convert.cli:main"
+smart-file2md = "markdown_convert.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

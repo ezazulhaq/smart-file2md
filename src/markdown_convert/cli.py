@@ -19,7 +19,7 @@ def create_parser() -> argparse.ArgumentParser:
         Configured ArgumentParser instance.
     """
     parser = argparse.ArgumentParser(
-        prog='markdown-convert',
+        prog='smart-file2md',
         description='Convert PDF files to Markdown with OCR support',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""

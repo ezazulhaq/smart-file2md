@@ -1,7 +1,7 @@
-# PDF to Markdown Converter
+# Smart File to Markdown Converter
 
-[![PyPI version](https://badge.fury.io/py/markdown-convert.svg)](https://badge.fury.io/py/markdown-convert)
-[![Python Support](https://img.shields.io/pypi/pyversions/markdown-convert.svg)](https://pypi.org/project/markdown-convert/)
+[![PyPI version](https://badge.fury.io/py/smart-file2md.svg)](https://badge.fury.io/py/smart-file2md)
+[![Python Support](https://img.shields.io/pypi/pyversions/smart-file2md.svg)](https://pypi.org/project/smart-file2md/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A powerful and flexible tool to convert PDF files to Markdown format with intelligent OCR fallback support.
@@ -21,14 +21,14 @@ A powerful and flexible tool to convert PDF files to Markdown format with intell
 ### From PyPI (recommended)
 
 ```bash
-pip install markdown-convert
+pip install smart-file2md
 ```
 
 ### From source
 
 ```bash
-git clone https://github.com/ezazulhaq/markdown-convert.git
-cd markdown-convert
+git clone https://github.com/ezazulhaq/smart-file2md.git
+cd smart-file2md
 pip install -e .
 ```
 
@@ -55,28 +55,28 @@ Download the installer from [GitHub](https://github.com/UB-Mannheim/tesseract/wi
 
 ```bash
 # Convert a single PDF file
-markdown-convert document.pdf
+smart-file2md document.pdf
 
 # Convert multiple PDF files
-markdown-convert file1.pdf file2.pdf file3.pdf
+smart-file2md file1.pdf file2.pdf file3.pdf
 
 # Convert all PDFs in a directory
-markdown-convert /path/to/pdfs/
+smart-file2md /path/to/pdfs/
 
 # Convert all PDFs in a directory and subdirectories
-markdown-convert /path/to/pdfs/ --recursive
+smart-file2md /path/to/pdfs/ --recursive
 
 # Specify an output directory
-markdown-convert document.pdf --output-dir output/
+smart-file2md document.pdf --output-dir output/
 
 # Process only the first 10 pages
-markdown-convert document.pdf --max-pages 10
+smart-file2md document.pdf --max-pages 10
 
 # Force OCR even for text-based PDFs
-markdown-convert document.pdf --force-ocr
+smart-file2md document.pdf --force-ocr
 
 # Overwrite existing output files
-markdown-convert document.pdf --overwrite
+smart-file2md document.pdf --overwrite
 ```
 
 ### Programmatic API
