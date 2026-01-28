@@ -20,11 +20,11 @@ def create_parser() -> argparse.ArgumentParser:
     """
     parser = argparse.ArgumentParser(
         prog='smart-file2md',
-        description='Convert PDF and Docx files to Markdown with OCR support',
+        description='Convert PDF, Docx, and Doc files to Markdown with OCR support',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  # Convert a single file (PDF or Docx)
+  # Convert a single file (PDF, Docx, Doc)
   smart-file2md document.pdf
   smart-file2md document.docx
   
@@ -48,7 +48,7 @@ Examples:
     parser.add_argument(
         'input',
         nargs='+',
-        help='Input file(s) or directory (PDF, Docx)'
+        help='Input file(s) or directory (PDF, Docx, Doc)'
     )
     
     parser.add_argument(

@@ -27,15 +27,15 @@ class DocxConverter(BaseConverter):
         super().__init__(config)
 
     def can_convert(self, file_path: Path) -> bool:
-        """Check if file is a Docx file.
+        """Check if file is a Doc/Docx file.
 
         Args:
             file_path: Path to the file.
 
         Returns:
-            True if file is a .docx file, False otherwise.
+            True if file is a .doc or .docx file, False otherwise.
         """
-        return file_path.suffix.lower() == '.docx'
+        return file_path.suffix.lower() in {'.docx', '.doc'}
 
     def _convert_to_markdown(self, file_path: Path) -> str:
         """Convert Docx to markdown.
@@ -54,7 +54,17 @@ class DocxConverter(BaseConverter):
             print("Using Docx converter...")
 
             with open(file_path, "rb") as docx_file:
-                result = mammoth.convert_to_html(docx_file)
+                try:
+                    result = mammoth.convert_to_html(docx_file)
+                except Exception as e:
+                    # Mammoth raises errors for non-zip files (binary .doc)
+                    if "File is not a zip file" in str(e) or file_path.suffix.lower() == '.doc':
+                        raise ValueError(
+                            "Legacy binary .doc files are not supported. "
+                            "Please convert to .docx or ensure the file is a valid XML-based Word document."
+                        )
+                    raise e
+
                 html = result.value
                 messages = result.messages
 

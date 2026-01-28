@@ -21,6 +21,10 @@ class TestDocxConverter:
         assert converter.can_convert(Path("test.docx")) is True
         assert converter.can_convert(Path("TEST.DOCX")) is True
 
+    def test_can_convert_returns_true_for_doc(self, converter):
+        assert converter.can_convert(Path("test.doc")) is True
+        assert converter.can_convert(Path("TEST.DOC")) is True
+
     def test_can_convert_returns_false_for_others(self, converter):
         assert converter.can_convert(Path("test.pdf")) is False
         assert converter.can_convert(Path("test.txt")) is False
@@ -63,3 +67,10 @@ class TestDocxConverter:
             with pytest.raises(ConversionError) as exc:
                 converter._convert_to_markdown(Path("test.docx"))
             assert "Docx conversion failed" in str(exc.value)
+
+    def test_convert_raises_friendly_error_for_binary_doc(self, converter):
+        with patch("builtins.open", new_callable=mock_open):
+            with patch("mammoth.convert_to_html", side_effect=Exception("File is not a zip file")):
+                with pytest.raises(ConversionError) as exc:
+                    converter._convert_to_markdown(Path("test.doc"))
+                assert "Legacy binary .doc files are not supported" in str(exc.value)

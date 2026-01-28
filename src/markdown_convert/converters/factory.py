@@ -42,7 +42,7 @@ class ConverterFactory:
         
         file_path = Path(file_path)
         
-        # Check for Docx
+        # Check for Docx/Doc
         docx_converter = DocxConverter(config)
         if docx_converter.can_convert(file_path):
             return docx_converter

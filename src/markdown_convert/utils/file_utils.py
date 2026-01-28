@@ -9,7 +9,7 @@ from typing import List, Optional
 def find_supported_files(paths: List[str], recursive: bool = False) -> List[Path]:
     """Find all supported files from given paths.
 
-    Supported extensions: .pdf, .docx
+    Supported extensions: .pdf, .docx, .doc
     
     Args:
         paths: List of file paths, directory paths, or glob patterns.
@@ -19,7 +19,7 @@ def find_supported_files(paths: List[str], recursive: bool = False) -> List[Path
         List of Path objects for found files, sorted and deduplicated.
     """
     found_files = []
-    extensions = {'.pdf', '.docx'}
+    extensions = {'.pdf', '.docx', '.doc'}
     
     for path_str in paths:
         path = Path(path_str)
