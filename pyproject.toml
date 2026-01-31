@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "smart-file2md"
-version = "1.0.0"
-description = "Convert PDF files to Markdown with OCR support"
+version = "1.1.0"
+description = "Convert PDF and DOCX files to Markdown with OCR support"
 readme = "README.md"
 requires-python = ">=3.8"
 license = {text = "MIT"}
@@ -34,7 +34,8 @@ dependencies = [
     "pymupdf4llm>=0.0.10",
     "pytesseract>=0.3.10",
     "Pillow>=9.0.0",
-    "fitz>=0.0.1.dev2",
+    "mammoth>=1.8.0",
+    "markdownify>=0.11.0",
 ]
 
 [project.optional-dependencies]
