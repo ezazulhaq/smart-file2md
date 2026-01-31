@@ -4,16 +4,17 @@
 [![Python Support](https://img.shields.io/pypi/pyversions/smart-file2md.svg)](https://pypi.org/project/smart-file2md/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A powerful and flexible tool to convert PDF files to Markdown format with intelligent OCR fallback support.
+A powerful and flexible tool to convert **PDF and DOCX files** to Markdown format with intelligent OCR fallback support for scanned documents.
 
 ## Features
 
-- 🚀 **Fast text extraction** from text-based PDFs
-- 🔍 **Automatic OCR fallback** for scanned documents
-- 📦 **Batch processing** of multiple files
+- 🚀 **Fast text extraction** from text-based PDFs and DOCX files
+- 🔍 **Automatic OCR fallback** for scanned PDFs and DOCX documents
+- � **DOCX Support** with embedded image OCR for scanned Word documents
+- �📦 **Batch processing** of multiple files
 - 🔄 **Recursive directory processing**
 - ⚙️ **Flexible configuration** options
-- 🎯 **Smart converter selection** based on PDF type
+- 🎯 **Smart converter selection** based on file type
 - 📝 **Clean, well-structured code** following OOP and SOLID principles
 
 ## Installation
@@ -57,19 +58,22 @@ Download the installer from [GitHub](https://github.com/UB-Mannheim/tesseract/wi
 # Convert a single PDF file
 smart-file2md document.pdf
 
-# Convert multiple PDF files
-smart-file2md file1.pdf file2.pdf file3.pdf
+# Convert a DOCX file (OCR automatic for scanned documents)
+smart-file2md document.docx
 
-# Convert all PDFs in a directory
-smart-file2md /path/to/pdfs/
+# Convert multiple files (mixed types supported)
+smart-file2md file1.pdf file2.docx file3.pdf
 
-# Convert all PDFs in a directory and subdirectories
-smart-file2md /path/to/pdfs/ --recursive
+# Convert all files in a directory
+smart-file2md /path/to/files/
+
+# Convert recursively with subdirectories
+smart-file2md /path/to/files/ --recursive
 
 # Specify an output directory
 smart-file2md document.pdf --output-dir output/
 
-# Process only the first 10 pages
+# Process only the first 10 pages (PDF only)
 smart-file2md document.pdf --max-pages 10
 
 # Force OCR even for text-based PDFs
@@ -122,7 +126,7 @@ print(f"Converted to: {output_path}")
 
 ## Output Location
 
-If no output directory is specified with `--output-dir`, the tool creates a `markdown` directory in the same location as the PDF files and saves the converted files there.
+If no output directory is specified with `--output-dir`, the tool creates a `markdown` directory in the same location as the source files and saves the converted files there.
 
 ## Options
 
@@ -137,8 +141,9 @@ If no output directory is specified with `--output-dir`, the tool creates a `mar
 
 ## Performance Notes
 
-- **Text-based PDFs**: Very fast extraction using direct text extraction
-- **Scanned PDFs**: Slower due to OCR processing, but automatic fallback ensures compatibility
+- **Text-based PDFs/DOCX**: Very fast extraction using direct text extraction
+- **Scanned PDFs/DOCX**: Slower due to OCR processing, but automatic fallback ensures compatibility
+- **DOCX with images**: OCR automatically processes embedded images when no text is found
 
 ## Architecture
 
@@ -205,6 +210,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgments
 
 - [PyMuPDF](https://pymupdf.readthedocs.io/) for PDF processing
-- [pymupdf4llm](https://github.com/pymupdf/pymupdf4llm) for markdown conversion
+- [pymupdf4llm](https://github.com/pymupdf/pymupdf4llm) for PDF to markdown conversion
+- [Mammoth](https://github.com/mwilliamson/python-mammoth) for DOCX to HTML conversion
+- [Markdownify](https://github.com/matthewwithanm/python-markdownify) for HTML to markdown conversion
 - [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) for optical character recognition
 - [Pillow](https://python-pillow.org/) for image processing
