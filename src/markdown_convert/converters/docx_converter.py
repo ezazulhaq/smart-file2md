@@ -11,9 +11,9 @@ import pytesseract
 from markdownify import markdownify as md
 from PIL import Image
 
-from .base import BaseConverter
 from ..config import ConverterConfig
 from ..exceptions import ConversionError
+from .base import BaseConverter
 
 
 class DocxConverter(BaseConverter):
@@ -40,7 +40,7 @@ class DocxConverter(BaseConverter):
         Returns:
             True if file is a .doc or .docx file, False otherwise.
         """
-        return file_path.suffix.lower() in {'.docx', '.doc'}
+        return file_path.suffix.lower() in {".docx", ".doc"}
 
     def _convert_to_markdown(self, file_path: Path) -> str:
         """Convert Docx to markdown.
@@ -63,10 +63,14 @@ class DocxConverter(BaseConverter):
                     result = mammoth.convert_to_html(docx_file)
                 except Exception as e:
                     # Mammoth raises errors for non-zip files (binary .doc)
-                    if "File is not a zip file" in str(e) or file_path.suffix.lower() == '.doc':
+                    if (
+                        "File is not a zip file" in str(e)
+                        or file_path.suffix.lower() == ".doc"
+                    ):
                         raise ValueError(
                             "Legacy binary .doc files are not supported. "
-                            "Please convert to .docx or ensure the file is a valid XML-based Word document."
+                            "Please convert to .docx or ensure the file is a valid "
+                            "XML-based Word document."
                         )
                     raise e
 
@@ -89,10 +93,7 @@ class DocxConverter(BaseConverter):
             return markdown_text
 
         except Exception as e:
-            raise ConversionError(
-                str(file_path),
-                f"Docx conversion failed: {str(e)}"
-            )
+            raise ConversionError(str(file_path), f"Docx conversion failed: {str(e)}")
 
     def _extract_text_from_images(self, html: str) -> str:
         """Extract text from base64-encoded images using OCR.
@@ -105,17 +106,24 @@ class DocxConverter(BaseConverter):
         """
         # Find all base64-encoded images in HTML
         img_pattern = r'<img\s+src="data:image/[^;]+;base64,([^"]+)"'
-        matches = re.findall(img_pattern, html)
 
-        if not matches:
+        # Use finditer for memory efficiency, counting matches first to preserve
+        # the exact log output and handle the empty case without loading images.
+        num_images = sum(1 for _ in re.finditer(img_pattern, html))
+
+        if num_images == 0:
             print("No images found in document")
             return ""
 
-        print(f"Found {len(matches)} image(s), processing with OCR...")
+        print(f"Found {num_images} image(s), processing with OCR...")
         ocr_parts = []
 
-        for idx, base64_data in enumerate(matches):
+        # Process matches lazily to keep memory usage constant
+        for idx, match in enumerate(re.finditer(img_pattern, html)):
             try:
+                # Extract base64 data lazily
+                base64_data = match.group(1)
+
                 # Decode base64 image
                 img_bytes = base64.b64decode(base64_data)
                 img = Image.open(BytesIO(img_bytes))
@@ -128,8 +136,8 @@ class DocxConverter(BaseConverter):
                     ocr_parts.append(f"\n\n# Image {idx + 1}\n\n{ocr_text}")
 
                 # Progress reporting
-                if (idx + 1) % 10 == 0 or (idx + 1) == len(matches):
-                    print(f"Processed {idx + 1}/{len(matches)} image(s)")
+                if (idx + 1) % 10 == 0 or (idx + 1) == num_images:
+                    print(f"Processed {idx + 1}/{num_images} image(s)")
 
             except Exception as e:
                 print(f"Warning: Failed to OCR image {idx + 1}: {str(e)}")
