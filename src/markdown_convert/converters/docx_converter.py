@@ -15,6 +15,9 @@ from ..config import ConverterConfig
 from ..exceptions import ConversionError
 from .base import BaseConverter
 
+# Compiled regex for finding base64-encoded images in HTML
+IMG_PATTERN = re.compile(r'<img\s+src="data:image/[^;]+;base64,([^"]+)"')
+
 
 class DocxConverter(BaseConverter):
     """Converter for Docx files.
@@ -104,12 +107,11 @@ class DocxConverter(BaseConverter):
         Returns:
             Markdown text extracted from images via OCR.
         """
-        # Find all base64-encoded images in HTML
-        img_pattern = r'<img\s+src="data:image/[^;]+;base64,([^"]+)"'
-
-        # Use finditer for memory efficiency, counting matches first to preserve
-        # the exact log output and handle the empty case without loading images.
-        num_images = sum(1 for _ in re.finditer(img_pattern, html))
+        # Find all base64-encoded images in HTML.
+        # We convert finditer to a list once to avoid redundant scanning of the HTML string,
+        # while still processing the image data itself lazily in the loop.
+        matches = list(IMG_PATTERN.finditer(html))
+        num_images = len(matches)
 
         if num_images == 0:
             print("No images found in document")
@@ -118,8 +120,8 @@ class DocxConverter(BaseConverter):
         print(f"Found {num_images} image(s), processing with OCR...")
         ocr_parts = []
 
-        # Process matches lazily to keep memory usage constant
-        for idx, match in enumerate(re.finditer(img_pattern, html)):
+        # Process matches to extract text from images
+        for idx, match in enumerate(matches):
             try:
                 # Extract base64 data lazily
                 base64_data = match.group(1)
